@@ -37,4 +37,10 @@ struct Move
 	struct Move *next;
 };
 
+struct Node
+{
+	int **data;
+	struct Node *child;
+};
+
 #endif

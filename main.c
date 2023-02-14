@@ -3,26 +3,45 @@
 #include <stdbool.h>
 #include "definitions.h"
 
-int** newMatrix(int width, int height)
+int** newMatrix()
 {
 	int **matrix = (int**) malloc(sizeof(int*) * width);
 	int i, j;
-	for (i = 0; i < height; i++) {
+	for (i = 0; i < 8; i++) {
 		matrix[i] = (int*) malloc(sizeof(int) * height);
-		for (j = 0; j < height; j++) {
+		for (j = 0; j < 8; j++) {
 			matrix[i][j] = EMPTY_QUAD;
 		}
 	}
 	return matrix;
 }
 
-int **freeMatrix(int **matrix, int width, int height)
+int** copyMatrix(int **matrix)
+{
+	int **newMatrix = (int**) malloc(sizeof(int*) * width);
+	int i, j;
+	for (i = 0; i < 8; i++) {
+		newMatrix[i] = (int*) malloc(sizeof(int) * height);
+		for (j = 0; j < 8; j++) {
+			newMatrix[i][j] = matrix[i][j];
+		}
+	}
+	return newMatrix;
+}
+
+int **freeMatrix(int **matrix)
 {
 	int i;
-	for (i = 0; i < height; i++) {
+	for (i = 0; i < 8; i++) {
 		free(matrix[i]);
 	}
 	free(matrix);
+}
+
+void movePiece(int **matrix, int originX, int originY, int destinationX, int destinationY)
+{
+	matrix[destinationX][destinationY] = matrix[originX][originY];
+	matrix[originX][originY] = EMPTY_QUAD;
 }
 
 bool isPieceWhite(enum Piece piece)
@@ -775,6 +794,35 @@ struct Move* getKingMoves(int **matrix, enum Color color, int x, int y)
 	return moves;
 }
 
+struct Node* newNode(int **data)
+{
+	struct Node *node = (struct Node*) malloc(sizeof(struct Node));
+	node->data = data;
+	node->child = NULL;
+	return node;
+}
+
+void insertNode(struct Node *parent, struct Node *child)
+{
+	if (parent->child == NULL) {
+		parent->child = child;
+		return;
+	}
+	struct Node *pointer = parent->child;
+	while (pointer->child != NULL) {
+		pointer = pointer->child;
+	}
+	pointer->child = child;
+}
+
+int** generateTree(int **matrix, int depth)
+{
+	struct Node *root = newNode(matrix);
+	if (depth > 0) {
+		getMovesBlack(root, depth);
+	}
+}
+
 void printMoves(struct Move **list)
 {
 	if (*list == NULL) {
@@ -793,15 +841,15 @@ void printMoves(struct Move **list)
 
 int main(int argc, char *argv[])
 {
-	int **matrix = newMatrix(8, 8);
-	//matrix[0][1] = PAWN_BLACK;
+	int **matrix = newMatrix();
+	matrix[0][1] = PAWN_BLACK;
 	matrix[0][6] = PAWN_WHITE;
-	matrix[4][4] = KNIGHT_WHITE;
+	matrix[4][4] = QUEEN_WHITE;
 
-	printf("==knight moves==");
-	struct Move *knightMoves = getKnightMoves(matrix, WHITE, 4, 4);
-	printMoves(&knightMoves);
+	printf("==king moves==");
+	struct Move *kingMoves = getKingMoves(matrix, WHITE, 4, 4);
+	printMoves(&kingMoves);
 
-	freeMoveList(&knightMoves);
-	freeMatrix(matrix, 8, 8);
+	freeMoveList(&kingMoves);
+	freeMatrix(matrix);
 }
