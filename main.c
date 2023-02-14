@@ -476,6 +476,305 @@ struct Move* getKnightMoves(int **matrix, enum Color color, int x, int y)
 	return moves;
 }
 
+struct Move* getQueenMoves(int **matrix, enum Color color, int x, int y)
+{
+	struct Move *moves = NULL;
+	int quadsLeft = x;
+	int quadsRight = 7-x;
+	int quadsUp = y;
+	int quadsDown = 7-y;
+	int quadsRightUp = min(quadsRight, quadsUp);
+	int quadsLeftUp = min(quadsLeft, quadsUp);
+	int quadsLeftDown = min(quadsLeft, quadsDown);
+	int quadsRightDown = min(quadsRight, quadsDown);
+	int i;
+	if (color == WHITE) {
+		// move right
+		for (i = 1; i <= quadsRight; i++) {
+			if (!hasPiece(matrix, WHITE, x+i, y)) {
+				struct Move *move = newMove(x+i, y);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x+i, y)) {
+				break;
+			}
+		}
+		// move right-up
+		for (i = 1; i <= quadsRightUp; i++) {
+			if (!hasPiece(matrix, WHITE, x+i, y-i)) {
+				struct Move *move = newMove(x+i, y-i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x+i, y-i)) {
+				break;
+			}
+		}
+		// move up
+		for (i = 1; i <= quadsUp; i++) {
+			if (!hasPiece(matrix, WHITE, x, y-i)) {
+				struct Move *move = newMove(x, y-i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x, y-i)) {
+				break;
+			}
+		}
+		// move left-up
+		for (i = 1; i <= quadsLeftUp; i++) {
+			if (!hasPiece(matrix, WHITE, x-i, y-i)) {
+				struct Move *move = newMove(x-i, y-i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x-i, y-i)) {
+				break;
+			}
+		}
+		// move left
+		for (i = 1; i <= quadsLeft; i++) {
+			if (!hasPiece(matrix, WHITE, x-i, y)) {
+				struct Move *move = newMove(x-i, y);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x-i, y)) {
+				break;
+			}
+		}
+		// move left-down
+		for (i = 1; i <= quadsLeftDown; i++) {
+			if (!hasPiece(matrix, WHITE, x-i, y+i)) {
+				struct Move *move = newMove(x-i, y+i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x-i, y+i)) {
+				break;
+			}
+		}
+		// move down
+		for (i = 1; i <= quadsDown; i++) {
+			if (!hasPiece(matrix, WHITE, x, y+i)) {
+				struct Move *move = newMove(x, y+i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x, y+i)) {
+				break;
+			}
+		}
+		// move right-down
+		for (i = 1; i <= quadsRightDown; i++) {
+			if (!hasPiece(matrix, WHITE, x+i, y+i)) {
+				struct Move *move = newMove(x+i, y+i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x+i, y+i)) {
+				break;
+			}
+		}
+	} else if (color == BLACK) {
+		// move right
+		for (i = 1; i <= quadsRight; i++) {
+			if (!hasPiece(matrix, BLACK, x+i, y)) {
+				struct Move *move = newMove(x+i, y);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x+i, y)) {
+				break;
+			}
+		}
+		// move right-up
+		for (i = 1; i <= quadsRightUp; i++) {
+			if (!hasPiece(matrix, BLACK, x+i, y-i)) {
+				struct Move *move = newMove(x+i, y-i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x+i, y-i)) {
+				break;
+			}
+		}
+		// move up
+		for (i = 1; i <= quadsUp; i++) {
+			if (!hasPiece(matrix, BLACK, x, y-i)) {
+				struct Move *move = newMove(x, y-i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x, y-i)) {
+				break;
+			}
+		}
+		// move left-up
+		for (i = 1; i <= quadsLeftUp; i++) {
+			if (!hasPiece(matrix, BLACK, x-i, y-i)) {
+				struct Move *move = newMove(x-i, y-i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x-i, y-i)) {
+				break;
+			}
+		}
+		// move left
+		for (i = 1; i <= quadsLeft; i++) {
+			if (!hasPiece(matrix, BLACK, x-i, y)) {
+				struct Move *move = newMove(x-i, y);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x-i, y)) {
+				break;
+			}
+		}
+		// move left-down
+		for (i = 1; i <= quadsLeftDown; i++) {
+			if (!hasPiece(matrix, BLACK, x-i, y+i)) {
+				struct Move *move = newMove(x-i, y+i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x-i, y+i)) {
+				break;
+			}
+		}
+		// move down
+		for (i = 1; i <= quadsDown; i++) {
+			if (!hasPiece(matrix, BLACK, x, y+i)) {
+				struct Move *move = newMove(x, y+i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x, y+i)) {
+				break;
+			}
+		}
+		// move right-down
+		for (i = 1; i <= quadsRightDown; i++) {
+			if (!hasPiece(matrix, BLACK, x+i, y+i)) {
+				struct Move *move = newMove(x+i, y+i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x+i, y+i)) {
+				break;
+			}
+		}
+	}
+	return moves;
+}
+
+struct Move* getKingMoves(int **matrix, enum Color color, int x, int y)
+{
+	struct Move *moves = NULL;
+	if (color == WHITE) {
+		// move right
+		if (x < 7) {
+			if (!hasPiece(matrix, WHITE, x+1, y)) {
+				struct Move *move = newMove(x+1, y);
+				insertMove(&moves, move);
+			}
+		}
+		// move right-up
+		if (x < 7 && y > 0) {
+			if (!hasPiece(matrix, WHITE, x+1, y-1)) {
+				struct Move *move = newMove(x+1, y-1);
+				insertMove(&moves, move);
+			}	
+		}
+		// move up
+		if (y > 0) {
+			if (!hasPiece(matrix, WHITE, x, y-1)) {
+				struct Move *move = newMove(x, y-1);
+				insertMove(&moves, move);
+			}	
+		}
+		// move left-up
+		if (x > 0 && y > 0) {
+			if (!hasPiece(matrix, WHITE, x-1, y-1)) {
+				struct Move *move = newMove(x-1, y-1);
+				insertMove(&moves, move);
+			}	
+		}
+		// move left
+		if (x > 0 && y > 0) {
+			if (!hasPiece(matrix, WHITE, x-1, y)) {
+				struct Move *move = newMove(x-1, y);
+				insertMove(&moves, move);
+			}	
+		}
+		// move left-down
+		if (x > 0 && y < 7) {
+			if (!hasPiece(matrix, WHITE, x-1, y+1)) {
+				struct Move *move = newMove(x-1, y+1);
+				insertMove(&moves, move);
+			}	
+		}
+		// move down
+		if (y < 7) {
+			if (!hasPiece(matrix, WHITE, x, y+1)) {
+				struct Move *move = newMove(x, y+1);
+				insertMove(&moves, move);
+			}	
+		}
+		// move right-down
+		if (x < 7 && y < 7) {
+			if (!hasPiece(matrix, WHITE, x+1, y+1)) {
+				struct Move *move = newMove(x+1, y+1);
+				insertMove(&moves, move);
+			}	
+		}
+	} else if (color == BLACK) {
+		// move right
+		if (x < 7) {
+			if (!hasPiece(matrix, BLACK, x+1, y)) {
+				struct Move *move = newMove(x+1, y);
+				insertMove(&moves, move);
+			}
+		}
+		// move right-up
+		if (x < 7 && y > 0) {
+			if (!hasPiece(matrix, BLACK, x+1, y-1)) {
+				struct Move *move = newMove(x+1, y-1);
+				insertMove(&moves, move);
+			}	
+		}
+		// move up
+		if (y > 0) {
+			if (!hasPiece(matrix, BLACK, x, y-1)) {
+				struct Move *move = newMove(x, y-1);
+				insertMove(&moves, move);
+			}	
+		}
+		// move left-up
+		if (x > 0 && y > 0) {
+			if (!hasPiece(matrix, BLACK, x-1, y-1)) {
+				struct Move *move = newMove(x-1, y-1);
+				insertMove(&moves, move);
+			}	
+		}
+		// move left
+		if (x > 0 && y > 0) {
+			if (!hasPiece(matrix, BLACK, x-1, y)) {
+				struct Move *move = newMove(x-1, y);
+				insertMove(&moves, move);
+			}	
+		}
+		// move left-down
+		if (x > 0 && y < 7) {
+			if (!hasPiece(matrix, BLACK, x-1, y+1)) {
+				struct Move *move = newMove(x-1, y+1);
+				insertMove(&moves, move);
+			}	
+		}
+		// move down
+		if (y < 7) {
+			if (!hasPiece(matrix, BLACK, x, y+1)) {
+				struct Move *move = newMove(x, y+1);
+				insertMove(&moves, move);
+			}	
+		}
+		// move right-down
+		if (x < 7 && y < 7) {
+			if (!hasPiece(matrix, BLACK, x+1, y+1)) {
+				struct Move *move = newMove(x+1, y+1);
+				insertMove(&moves, move);
+			}	
+		}
+	}
+	return moves;
+}
+
 void printMoves(struct Move **list)
 {
 	if (*list == NULL) {
