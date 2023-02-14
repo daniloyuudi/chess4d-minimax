@@ -2,47 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "definitions.h"
-
-int** newMatrix()
-{
-	int **matrix = (int**) malloc(sizeof(int*) * width);
-	int i, j;
-	for (i = 0; i < 8; i++) {
-		matrix[i] = (int*) malloc(sizeof(int) * height);
-		for (j = 0; j < 8; j++) {
-			matrix[i][j] = EMPTY_QUAD;
-		}
-	}
-	return matrix;
-}
-
-int** copyMatrix(int **matrix)
-{
-	int **newMatrix = (int**) malloc(sizeof(int*) * width);
-	int i, j;
-	for (i = 0; i < 8; i++) {
-		newMatrix[i] = (int*) malloc(sizeof(int) * height);
-		for (j = 0; j < 8; j++) {
-			newMatrix[i][j] = matrix[i][j];
-		}
-	}
-	return newMatrix;
-}
-
-int **freeMatrix(int **matrix)
-{
-	int i;
-	for (i = 0; i < 8; i++) {
-		free(matrix[i]);
-	}
-	free(matrix);
-}
-
-void movePiece(int **matrix, int originX, int originY, int destinationX, int destinationY)
-{
-	matrix[destinationX][destinationY] = matrix[originX][originY];
-	matrix[originX][originY] = EMPTY_QUAD;
-}
+#include "matrix.h"
 
 bool isPieceWhite(enum Piece piece)
 {
@@ -819,7 +779,7 @@ int** generateTree(int **matrix, int depth)
 {
 	struct Node *root = newNode(matrix);
 	if (depth > 0) {
-		getMovesBlack(root, depth);
+		//getMovesBlack(root, depth);
 	}
 }
 

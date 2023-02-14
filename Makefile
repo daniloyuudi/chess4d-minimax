@@ -1,5 +1,5 @@
-HEADERS = definitions.h
-OBJECTS = main.o
+HEADERS = definitions.h matrix.h
+OBJECTS = main.o matrix.o
 
 default: program
 
