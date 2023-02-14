@@ -355,6 +355,127 @@ struct Move* getBishopMoves(int **matrix, enum Color color, int x, int y)
 	return moves;
 }
 
+struct Move* getKnightMoves(int **matrix, enum Color color, int x, int y)
+{
+	struct Move *moves = NULL;
+	if (color == WHITE) {
+		// move left then up
+		if (x > 1 && y > 0) {
+			if (!hasPiece(matrix, WHITE, x-2, y-1)) {
+				struct Move *move = newMove(x-2, y-1);
+				insertMove(&moves, move);
+			}
+		}
+		// move up then left
+		if (x > 0 && y > 1) {
+			if (!hasPiece(matrix, WHITE, x-1, y-2)) {
+				struct Move *move = newMove(x-1, y-2);
+				insertMove(&moves, move);
+			}
+		}
+		// move up then right
+		if (x < 7 && y > 1) {
+			if (!hasPiece(matrix, WHITE, x+1, y-2)) {
+				struct Move *move = newMove(x+1, y-2);
+				insertMove(&moves, move);
+			}
+		}
+		// move right then up
+		if (x < 6 && y > 0) {
+			if (!hasPiece(matrix, WHITE, x+2, y-1)) {
+				struct Move *move = newMove(x+2, y-1);
+				insertMove(&moves, move);
+			}
+		}
+		// move right then down
+		if (x < 6 && y < 7) {
+			if (!hasPiece(matrix, WHITE, x+2, y+1)) {
+				struct Move *move = newMove(x+2, y+1);
+				insertMove(&moves, move);
+			}
+		}
+		// move down then right
+		if (x < 7 && y < 6) {
+			if (!hasPiece(matrix, WHITE, x+1, y+2)) {
+				struct Move *move = newMove(x+1, y+2);
+				insertMove(&moves, move);
+			}
+		}
+		// move down then left
+		if (x > 0 && y < 6) {
+			if (!hasPiece(matrix, WHITE, x-1, y+2)) {
+				struct Move *move = newMove(x-1, y+2);
+				insertMove(&moves, move);
+			}
+		}
+		// move left then down
+		if (x > 1 && y < 7) {
+			if (!hasPiece(matrix, WHITE, x-2, y+1)) {
+				struct Move *move = newMove(x-2, y+1);
+				insertMove(&moves, move);
+			}
+		}
+	} else if (color == BLACK) {
+		// move left then up
+		if (x > 1 && y > 0) {
+			if (!hasPiece(matrix, BLACK, x-2, y-1)) {
+				struct Move *move = newMove(x-2, y-1);
+				insertMove(&moves, move);
+			}
+		}
+		// move up then left
+		if (x > 0 && y > 1) {
+			if (!hasPiece(matrix, BLACK, x-1, y-2)) {
+				struct Move *move = newMove(x-1, y-2);
+				insertMove(&moves, move);
+			}
+		}
+		// move up then right
+		if (x < 7 && y > 1) {
+			if (!hasPiece(matrix, BLACK, x+1, y-2)) {
+				struct Move *move = newMove(x+1, y-2);
+				insertMove(&moves, move);
+			}
+		}
+		// move right then up
+		if (x < 6 && y > 0) {
+			if (!hasPiece(matrix, BLACK, x+2, y-1)) {
+				struct Move *move = newMove(x+2, y-1);
+				insertMove(&moves, move);
+			}
+		}
+		// move right then down
+		if (x < 6 && y < 7) {
+			if (!hasPiece(matrix, BLACK, x+2, y+1)) {
+				struct Move *move = newMove(x+2, y+1);
+				insertMove(&moves, move);
+			}
+		}
+		// move down then right
+		if (x < 7 && y < 6) {
+			if (!hasPiece(matrix, BLACK, x+1, y+2)) {
+				struct Move *move = newMove(x+1, y+2);
+				insertMove(&moves, move);
+			}
+		}
+		// move down then left
+		if (x > 0 && y < 6) {
+			if (!hasPiece(matrix, BLACK, x-1, y+2)) {
+				struct Move *move = newMove(x-1, y+2);
+				insertMove(&moves, move);
+			}
+		}
+		// move left then down
+		if (x > 1 && y < 7) {
+			if (!hasPiece(matrix, BLACK, x-2, y+1)) {
+				struct Move *move = newMove(x-2, y+1);
+				insertMove(&moves, move);
+			}
+		}
+	}
+	return moves;
+}
+
 void printMoves(struct Move **list)
 {
 	if (*list == NULL) {
@@ -376,12 +497,12 @@ int main(int argc, char *argv[])
 	int **matrix = newMatrix(8, 8);
 	//matrix[0][1] = PAWN_BLACK;
 	matrix[0][6] = PAWN_WHITE;
-	matrix[4][7] = BISHOP_WHITE;
+	matrix[4][4] = KNIGHT_WHITE;
 
-	printf("==bishop moves==");
-	struct Move *bishopMoves = getBishopMoves(matrix, WHITE, 4, 7);
-	printMoves(&bishopMoves);
+	printf("==knight moves==");
+	struct Move *knightMoves = getKnightMoves(matrix, WHITE, 4, 4);
+	printMoves(&knightMoves);
 
-	freeMoveList(&bishopMoves);
+	freeMoveList(&knightMoves);
 	freeMatrix(matrix, 8, 8);
 }
