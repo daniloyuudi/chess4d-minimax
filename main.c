@@ -50,7 +50,7 @@ bool hasPiece(int **matrix, enum Color color, int x, int y)
 		if (color == ANY_COLOR ||
 			color == WHITE && isPieceWhite(piece) ||
 			color == BLACK && isPieceBlack(piece)) {
-			return true;
+				return true;
 		}
 	}
 	return false;
@@ -153,6 +153,100 @@ struct Move* getPawnMoves(int **matrix, enum Color color, int x, int y)
 	return moves;
 }
 
+struct Move* getRookMoves(int **matrix, enum Color color, int x, int y)
+{
+	struct Move *moves = NULL;
+	int quadsLeft = x;
+	int quadsRight = 7-x;
+	int quadsUp = y;
+	int quadsDown = 7-y;
+	int i;
+	if (color == WHITE) {
+		// move right
+		for (i = 1; i <= quadsRight; i++) {
+			if (!hasPiece(matrix, WHITE, x+i, y)) {
+				struct Move *move = newMove(x+i, y);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x+i, y)) {
+				break;
+			}
+		}
+		// move up
+		for (i = 1; i <= quadsUp; i++) {
+			if (!hasPiece(matrix, WHITE, x, y-i)) {
+				struct Move *move = newMove(x, y-i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x, y-i)) {
+				break;
+			}
+		}
+		// move left
+		for (i = 1; i <= quadsLeft; i++) {
+			if (!hasPiece(matrix, WHITE, x-i, y)) {
+				struct Move *move = newMove(x-i, y);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x-i, y)) {
+				break;
+			}
+		}
+		// move down
+		for (i = 1; i <= quadsDown; i++) {
+			if (!hasPiece(matrix, WHITE, x, y+i)) {
+				struct Move *move = newMove(x, y+i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x, y+i)) {
+				break;
+			}
+		}
+	} else if (color == BLACK) {
+		// move right
+		for (i = 1; i <= quadsRight; i++) {
+			if (!hasPiece(matrix, BLACK, x+i, y)) {
+				struct Move *move = newMove(x+i, y);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x+i, y)) {
+				break;
+			}
+		}
+		// move up
+		for (i = 1; i <= quadsUp; i++) {
+			if (!hasPiece(matrix, BLACK, x, y-i)) {
+				struct Move *move = newMove(x, y-i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x, y-i)) {
+				break;
+			}
+		}
+		// move left
+		for (i = 1; i <= quadsLeft; i++) {
+			if (!hasPiece(matrix, BLACK, x-i, y)) {
+				struct Move *move = newMove(x-i, y);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x-i, y)) {
+				break;
+			}
+		}
+		// move down
+		for (i = 1; i <= quadsDown; i++) {
+			if (!hasPiece(matrix, BLACK, x, y+i)) {
+				struct Move *move = newMove(x, y+i);
+				insertMove(&moves, move);
+			}
+			if (hasPiece(matrix, ANY_COLOR, x, y+i)) {
+				break;
+			}
+		}
+	}
+	return moves;
+}
+
 void printMoves(struct Move **list)
 {
 	if (*list == NULL) {
@@ -172,15 +266,14 @@ void printMoves(struct Move **list)
 int main(int argc, char *argv[])
 {
 	int **matrix = newMatrix(8, 8);
+	//matrix[0][1] = PAWN_BLACK;
 	matrix[0][6] = PAWN_WHITE;
-	matrix[0][1] = PAWN_BLACK;
+	matrix[0][7] = ROOK_WHITE;
 
-	struct Move *pawnMoves = getPawnMoves(matrix, WHITE, 0, 6);
-	printMoves(&pawnMoves);
+	printf("==rook moves==");
+	struct Move *rookMoves = getRookMoves(matrix, WHITE, 0, 7);
+	printMoves(&rookMoves);
 
-	pawnMoves = getPawnMoves(matrix, BLACK, 0, 1);
-	printMoves(&pawnMoves);
-
-	freeMoveList(&pawnMoves);
+	freeMoveList(&rookMoves);
 	freeMatrix(matrix, 8, 8);
 }
