@@ -4,6 +4,7 @@
 #include "definitions.h"
 #include "matrix.h"
 #include "move.h"
+#include "tree.h"
 
 bool isPieceWhite(enum Piece piece)
 {
@@ -721,35 +722,6 @@ struct Move* getKingMoves(int **matrix, enum Color color, int x, int y)
 		}
 	}
 	return moves;
-}
-
-struct Node* newNode(int **data)
-{
-	struct Node *node = (struct Node*) malloc(sizeof(struct Node));
-	node->data = data;
-	node->child = NULL;
-	return node;
-}
-
-void insertNode(struct Node *parent, struct Node *child)
-{
-	if (parent->child == NULL) {
-		parent->child = child;
-		return;
-	}
-	struct Node *pointer = parent->child;
-	while (pointer->child != NULL) {
-		pointer = pointer->child;
-	}
-	pointer->child = child;
-}
-
-int** generateTree(int **matrix, int depth)
-{
-	struct Node *root = newNode(matrix);
-	if (depth > 0) {
-		//getMovesBlack(root, depth);
-	}
 }
 
 int main(int argc, char *argv[])

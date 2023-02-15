@@ -1,5 +1,5 @@
-HEADERS = definitions.h matrix.h move.h
-OBJECTS = main.o matrix.o move.o
+HEADERS = definitions.h matrix.h move.h tree.h
+OBJECTS = main.o matrix.o move.o tree.o
 
 default: program
 
