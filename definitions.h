@@ -40,7 +40,7 @@ struct Move
 struct Node
 {
 	int **data;
-	struct Node *child;
+	struct Node *next, *child;
 };
 
 #endif
