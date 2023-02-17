@@ -25,12 +25,6 @@ enum Color
 	ANY_COLOR
 };
 
-struct Position
-{
-	int x, y;
-	struct Position *next;
-};
-
 struct Move
 {
 	int x, y;
@@ -41,6 +35,12 @@ struct Node
 {
 	int **data;
 	struct Node *next, *child;
+};
+
+struct MatrixDiff
+{
+	int originX, originY;
+	int destinationX, destinationY;
 };
 
 #endif
