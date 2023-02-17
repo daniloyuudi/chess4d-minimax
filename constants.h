@@ -1,0 +1,11 @@
+#ifndef CONSTANTS_H_INCLUDED
+#define CONSTANTS_H_INCLUDED
+
+#define PAWN_VALUE 10.0
+#define ROOK_VALUE 50.0
+#define KNIGHT_VALUE 30.0
+#define BISHOP_VALUE 30.0
+#define QUEEN_VALUE 90.0
+#define KING_VALUE 900.0
+
+#endif
