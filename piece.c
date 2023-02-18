@@ -1,5 +1,6 @@
 #include "piece.h"
 #include <stdlib.h>
+#include "math.h"
 
 bool isPieceWhite(enum Piece piece)
 {
@@ -189,16 +190,6 @@ struct Move* getRookMoves(int **matrix, enum Color color, int x, int y)
 		}
 	}
 	return moves;
-}
-
-int max(int num1, int num2)
-{
-	return (num1 > num2) ? num1 : num2;
-}
-
-int min(int num1, int num2)
-{
-	return (num1 > num2) ? num2 : num1;
 }
 
 struct Move* getBishopMoves(int **matrix, enum Color color, int x, int y)

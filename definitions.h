@@ -3,6 +3,7 @@
 
 enum Piece
 {
+	EMPTY_QUAD,
 	PAWN_WHITE,
 	PAWN_BLACK,
 	ROOK_WHITE,
@@ -14,8 +15,7 @@ enum Piece
 	QUEEN_WHITE,
 	QUEEN_BLACK,
 	KING_WHITE,
-	KING_BLACK,
-	EMPTY_QUAD
+	KING_BLACK
 };
 
 enum Color

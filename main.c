@@ -1,6 +1,7 @@
 #include "definitions.h"
 #include "matrix.h"
 #include "tree.h"
+#include "piece.h"
 #include "minimax.h"
 #include "lua.h"
 #include "lauxlib.h"
@@ -10,7 +11,7 @@ struct MatrixDiff getMatrixDiff(int **matrix1, int **matrix2)
 	struct MatrixDiff diff;
 	int i, j, piece1, piece2;
 	for (i = 0; i < 8; i++) {
-		for (j = 0; j < 8; ++) {
+		for (j = 0; j < 8; j++) {
 			piece1 = matrix1[i][j];
 			piece2 = matrix2[i][j];
 			if (piece1 != EMPTY_QUAD && isPieceBlack(piece1)
@@ -40,7 +41,7 @@ int** getMatrix(lua_State *L)
 			lua_pushnumber(L, j);
 			lua_gettable(L, -2);
 			if (lua_isnumber(L, -1)) {
-				error(L, "array value must be a number");
+				//error(L, "array value must be a number");
 			}
 			result = lua_tonumber(L, -1);
 			matrix[i][j] = result;
@@ -67,7 +68,7 @@ struct Node* getChild(struct Node *tree, int index)
 int getNextMove(lua_State *L)
 {
 	if (!lua_isnumber(L, -1)) {
-		error(L, "depth must be a number");
+		//error(L, "depth must be a number");
 	}
 	int depth = lua_tonumber(L, -1);
 	lua_pop(L, 1);
@@ -75,7 +76,7 @@ int getNextMove(lua_State *L)
 	struct Node *tree = generateTree(matrix, depth);
 	int index = maximizeFirst(tree, -999999, 999999);
 	struct Node *selectedPath = getChild(tree,  index);
-	MatrixDiff diff = getMatrixDiff(tree->data, selectedPath->data);
+	struct MatrixDiff diff = getMatrixDiff(tree->data, selectedPath->data);
 	lua_pushnumber(L, diff.originX);
 	lua_pushnumber(L, diff.originY);
 	lua_pushnumber(L, diff.destinationX);
@@ -83,12 +84,13 @@ int getNextMove(lua_State *L)
 	return 4;
 }
 
-static const struct lual_Reg functions[] = {
-	{"getNextMove", getNextMove}
+static const struct luaL_Reg functions[] = {
+	{"getNextMove", getNextMove},
+	{NULL, NULL}
 };
 
-int luaopen_hello(lua_State *L)
+int luaopen_minimax(lua_State *L)
 {
-	luaL_register(L, "hello", functions);
+	lua_register(L, "getNextMove", getNextMove);
 	return 1;
 }

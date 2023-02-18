@@ -1,11 +1,11 @@
 #include "minimax.h"
-#include "definitions.h"
+#include <stdlib.h>
 #include "constants.h"
-#include <stdbool.h>
+#include "math.h"
 
 double getPawnEvaluation(enum Color color, int x, int y)
 {
-	double evaluationWhite[][] = {
+	double evaluationWhite[][8] = {
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
 		{5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0},
 		{1.0, 1.0, 2.0, 3.0, 3.0, 2.0, 1.0, 1.0},
@@ -15,7 +15,7 @@ double getPawnEvaluation(enum Color color, int x, int y)
 		{0.5, 1.0, 1.0, -2.0, -2.0, 1.0, 1.0, 0.5},
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
 	};
-	double evaluationBlack[][] = {
+	double evaluationBlack[][8] = {
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
 		{0.5, 1.0, 1.0, -2.0, -2.0, 1.0, 1.0, 0.5},
 		{0.5, -0.5, -1.0, 0.0, 0.0, -1.0, -0.5, 0.5},
@@ -34,7 +34,7 @@ double getPawnEvaluation(enum Color color, int x, int y)
 
 double getRookEvaluation(enum Color color, int x, int y)
 {
-	double evaluationWhite[][] = {
+	double evaluationWhite[][8] = {
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
 		{0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5},
 		{-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5},
@@ -44,7 +44,7 @@ double getRookEvaluation(enum Color color, int x, int y)
 		{-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5},
 		{0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0}
 	};
-	double evaluationBlack[][] = {
+	double evaluationBlack[][8] = {
 		{0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0},
 		{-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5},
 		{-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5},
@@ -63,7 +63,7 @@ double getRookEvaluation(enum Color color, int x, int y)
 
 double getBishopEvaluation(enum Color color, int x, int y)
 {
-	double evaluationWhite[][] = {
+	double evaluationWhite[][8] = {
 		{-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0},
 		{-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0},
 		{-1.0, 0.0, 0.5, 1.0, 1.0, 0.5, 0.0, -1.0},
@@ -73,7 +73,7 @@ double getBishopEvaluation(enum Color color, int x, int y)
 		{-1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, -1.0},
 		{-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0}
 	};
-	double evaluationBlack[][] = {
+	double evaluationBlack[][8] = {
 		{-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0},
 		{-1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, -1.0},
 		{-1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0},
@@ -92,7 +92,7 @@ double getBishopEvaluation(enum Color color, int x, int y)
 
 double getKnightEvaluation(enum Color color, int x, int y)
 {
-	double evaluation[][] = {
+	double evaluation[][8] = {
 		{-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0},
 		{-4.0, -2.0, 0.0, 0.0, 0.0, 0.0, -2.0, -4.0},
 		{-3.0, 0.0, 1.0, 1.5, 1.5, 1.0, 0.0, -3.0},
@@ -105,9 +105,9 @@ double getKnightEvaluation(enum Color color, int x, int y)
 	return evaluation[x][y];
 }
 
-double getQueenEvaluation(enum Color, int x, int y)
+double getQueenEvaluation(enum Color color, int x, int y)
 {
-	double evaluation[][] = {
+	double evaluation[][8] = {
 		{-2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0},
 		{-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0},
 		{-1.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, -1.0},
@@ -122,7 +122,7 @@ double getQueenEvaluation(enum Color, int x, int y)
 
 double getKingEvaluation(enum Color color, int x, int y)
 {
-	double evaluationWhite[][] = {
+	double evaluationWhite[][8] = {
 		{-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0},
 		{-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0},
 		{-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0},
@@ -132,7 +132,7 @@ double getKingEvaluation(enum Color color, int x, int y)
 		{2.0, 2.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0},
 		{2.0, 3.0, 1.0, 0.0, 0.0, 1.0, 3.0, 2.0}
 	};
-	double evaluationBlack[][] = {
+	double evaluationBlack[][8] = {
 		{2.0, 3.0, 1.0, 0.0, 0.0, 1.0, 3.0, 2.0},
 		{2.0, 2.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0},
 		{-1.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -1.0},
@@ -166,7 +166,7 @@ double getPieceValue(int piece, int x, int y)
 			return -(KNIGHT_VALUE + getKnightEvaluation(WHITE, x, y));
 		case BISHOP_BLACK:
 			return BISHOP_VALUE + getBishopEvaluation(BLACK, x, y);
-		case BISHOP_BLACK:
+		case BISHOP_WHITE:
 			return -(BISHOP_VALUE + getBishopEvaluation(WHITE, x, y));
 		case QUEEN_BLACK:
 			return QUEEN_VALUE + getQueenEvaluation(BLACK, x, y);
@@ -194,51 +194,41 @@ double getBoardUtility(int **matrix)
 	return value;
 }
 
-double max(double num1, double num2)
-{
-	return (num1 > num2) ? num1 : num2;
-}
-
-double min(double num1, double num2)
-{
-	return (num1 > num2) ? num2 : num1;
-}
-
 double minimax(struct Node *node, bool isMaximize, double alpha, double beta)
 {
 	if (node->child != NULL) {
 		if (isMaximize) {
-			double max = -999999;
+			double maxValue = -999999;
 			struct Node *child = node->child;
 			double value;
 			while (child != NULL) {
 				value = minimax(child, false, alpha, beta);
-				if (value > max) {
-					max = value;
+				if (value > maxValue) {
+					maxValue = value;
 				}
-				alpha = max(alpha, max);
+				alpha = max(alpha, maxValue);
 				if (beta <= alpha) {
 					break;
 				}
 				child = child->next;
 			}
-			return max;
+			return maxValue;
 		} else {
-			double min = 999999;
+			double minValue = 999999;
 			struct Node *child = node->child;
 			double value;
 			while (child != NULL) {
 				value = minimax(child, true, alpha, beta);
-				if (value < min) {
-					min = value;
+				if (value < minValue) {
+					minValue = value;
 				}
-				beta = min(beta, min)
+				beta = min(beta, minValue);
 				if (beta <= alpha) {
 					break;
 				}
 				child = child->next;
 			}
-			return min;
+			return minValue;
 		}
 	} else {
 		return getBoardUtility(node->data);
@@ -247,18 +237,18 @@ double minimax(struct Node *node, bool isMaximize, double alpha, double beta)
 
 int maximizeFirst(struct Node *tree, double alpha, double beta)
 {
-	double max = -999999;
+	double maxValue = -999999;
 	int index = -1;
 	struct Node *child = tree->child;
 	double value;
 	int i = 0;
 	while (child != NULL) {
 		value = minimax(child, false, alpha, beta);
-		if (value > max) {
-			max = value;
+		if (value > maxValue) {
+			maxValue = value;
 			index = i;
 		}
-		alpha = max(alpha, max);
+		alpha = max(alpha, maxValue);
 		if (beta <= alpha) {
 			break;
 		}
