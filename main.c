@@ -5,6 +5,7 @@
 #include "minimax.h"
 #include "lua.h"
 #include "lauxlib.h"
+#include <stdio.h>
 
 struct MatrixDiff getMatrixDiff(int **matrix1, int **matrix2)
 {
@@ -97,3 +98,55 @@ int luaopen_minimax(lua_State *L)
 	lua_settable(L, -3);
 	return 1;
 }
+
+/*void printBoard(int **matrix)
+{
+	int i, j, piece;
+	printf("\n==new board==");
+	for (i = 0; i < 8; i++) {
+		printf("\n");
+		for (j = 0; j < 8; j++) {
+			piece = matrix[j][i];
+			printf("%d ", piece);
+		}
+	}
+}*/
+
+/*void main()
+{
+	int i, j;
+	int depth = 1;
+	int **matrix = newMatrix();
+	matrix[0][0] = ROOK_BLACK;
+	matrix[1][0] = KNIGHT_BLACK;
+	matrix[2][0] = BISHOP_BLACK;
+	matrix[3][0] = QUEEN_BLACK;
+	matrix[4][0] = KING_BLACK;
+	matrix[5][0] = BISHOP_BLACK;
+	matrix[6][0] = KNIGHT_BLACK;
+	matrix[7][0] = ROOK_BLACK;
+	for (i = 0; i < 8; i++) {
+		matrix[i][1] = PAWN_BLACK; 
+	}
+	matrix[0][7] = ROOK_WHITE;
+	matrix[1][7] = KNIGHT_WHITE;
+	matrix[2][7] = BISHOP_WHITE;
+	matrix[3][7] = QUEEN_WHITE;
+	matrix[4][7] = KING_WHITE;
+	matrix[5][7] = BISHOP_WHITE;
+	matrix[6][7] = KNIGHT_WHITE;
+	matrix[7][7] = ROOK_WHITE;
+	for (i = 0; i < 8; i++) {
+		matrix[i][6] = PAWN_WHITE; 
+	}
+	struct Node *tree = generateTree(matrix, depth);
+	int index = maximizeFirst(tree, -999999, 999999);
+	struct Node *selectedPath = getChild(tree, index);
+	printBoard(tree->data);
+	printBoard(selectedPath->data);
+	freeTree(tree);
+	freeMatrix(matrix);
+	//struct MatrixDiff diff = getMatrixDiff(tree->data, selectedPath->data);
+	//printf("\noriginX=%d", diff.originX); printf(" originY=%d", diff.originY);
+	//printf("\ndestinationX=%d", diff.destinationX); printf(" originY=%d", diff.destinationY);
+}*/

@@ -81,15 +81,13 @@ void getBlackMoves(struct Node *node, int level)
 		for (j = 0; j < 8; j++) {
 			piece = node->data[i][j];
 			if (isPieceBlack(piece)) {
-				//printf("\n==piece black==");
 				moves = getMoves(node->data, piece, i, j);
 				pointer = moves;
 				while (pointer != NULL) {
-					//printf("\nnew move");
 					newBoard = copyMatrix(node->data);
 					destinationX = pointer->x;
 					destinationY = pointer->y;
-					movePiece(newBoard, destinationX, destinationY, i, j);
+					movePiece(newBoard, i, j, destinationX, destinationY);
 					newChild = newNode(newBoard);
 					addChild(node, newChild);
 					pointer = pointer->next;
@@ -118,11 +116,9 @@ void getWhiteMoves(struct Node *node, int level)
 		for (j = 0; j < 8; j++) {
 			piece = node->data[i][j];
 			if (isPieceWhite(piece)) {
-				//printf("\n==piece white==");
 				moves = getMoves(node->data, piece, i, j);
 				pointer = moves;
 				while (pointer != NULL) {
-					//printf("\nnew move");
 					newBoard = copyMatrix(node->data);
 					destinationX = pointer->x;
 					destinationY = pointer->y;

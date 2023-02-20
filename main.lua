@@ -14,7 +14,7 @@ QUEEN_WHITE = 9
 QUEEN_BLACK = 10
 KING_WHITE = 11
 KING_BLACK = 12
-DEPTH = 3
+DEPTH = 4
 
 local executeOnce = false
 

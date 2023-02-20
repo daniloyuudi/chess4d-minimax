@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "math.h"
 
-bool isPieceWhite(enum Piece piece)
+bool isPieceWhite(int piece)
 {
 	if (piece == PAWN_WHITE || piece == ROOK_WHITE || piece == KNIGHT_WHITE
 		|| piece == BISHOP_WHITE || piece == QUEEN_WHITE || piece == KING_WHITE) {
@@ -11,7 +11,7 @@ bool isPieceWhite(enum Piece piece)
 	return false;
 }
 
-bool isPieceBlack(enum Piece piece)
+bool isPieceBlack(int piece)
 {
 	if (piece == PAWN_BLACK || piece == ROOK_BLACK || piece == KNIGHT_BLACK
 		|| piece == BISHOP_BLACK || piece == QUEEN_BLACK || piece == KING_BLACK) {

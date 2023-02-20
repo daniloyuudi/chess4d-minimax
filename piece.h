@@ -5,8 +5,8 @@
 #include "definitions.h"
 #include "move.h"
 
-bool isPieceWhite(enum Piece piece);
-bool isPieceBlack(enum Piece piece);
+bool isPieceWhite(int piece);
+bool isPieceBlack(int piece);
 bool hasPiece(int **matrix, enum Color color, int x, int y);
 struct Move* getPawnMoves(int **matrix, enum Color color, int x, int y);
 struct Move* getRookMoves(int **matrix, enum Color color, int x, int y);
