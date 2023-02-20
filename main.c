@@ -44,7 +44,7 @@ int** getMatrix(lua_State *L)
 				//error(L, "array value must be a number");
 			}
 			result = lua_tonumber(L, -1);
-			matrix[i][j] = result;
+			matrix[i-1][j-1] = result;
 			lua_pop(L, 1); // remove number
 		}
 		lua_pop(L, 1);
@@ -77,10 +77,10 @@ int getNextMove(lua_State *L)
 	int index = maximizeFirst(tree, -999999, 999999);
 	struct Node *selectedPath = getChild(tree,  index);
 	struct MatrixDiff diff = getMatrixDiff(tree->data, selectedPath->data);
-	lua_pushnumber(L, diff.originX);
-	lua_pushnumber(L, diff.originY);
-	lua_pushnumber(L, diff.destinationX);
-	lua_pushnumber(L, diff.destinationY);
+	lua_pushnumber(L, diff.originX+1);
+	lua_pushnumber(L, diff.originY+1);
+	lua_pushnumber(L, diff.destinationX+1);
+	lua_pushnumber(L, diff.destinationY+1);
 	return 4;
 }
 
@@ -91,6 +91,9 @@ static const struct luaL_Reg functions[] = {
 
 int luaopen_minimax(lua_State *L)
 {
-	lua_register(L, "getNextMove", getNextMove);
+	lua_newtable(L);
+	lua_pushstring(L, "getNextMove");
+	lua_pushcfunction(L, getNextMove);
+	lua_settable(L, -3);
 	return 1;
 }

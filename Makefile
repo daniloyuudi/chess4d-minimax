@@ -1,17 +1,17 @@
 HEADERS = definitions.h matrix.h move.h tree.h piece.h minimax.h math.h
 OBJECTS = main.o matrix.o move.o tree.o piece.o minimax.o math.o
-PROGRAM = minimax
+PROGRAM = minimax.dll
 
 default: $(PROGRAM)
 
 %.o: %.c $(HEADERS)
 	gcc -fPIC -c $< -o $@ \
-		-I"C:\lua-5.4.2-Win64-dllw6_lib\include"
+		-I"C:\luajit\src"
 
 $(PROGRAM): $(OBJECTS)
 	gcc $(OBJECTS) -shared -o $@ \
-		-L"C:\lua-5.4.2-Win64-dllw6_lib" \
-		-llua54
+		-L"C:\luajit\src" \
+		-llua51
 
 clean:
 	del $(OBJECTS)
