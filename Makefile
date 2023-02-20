@@ -5,7 +5,7 @@ PROGRAM = minimax.dll
 default: $(PROGRAM)
 
 %.o: %.c $(HEADERS)
-	gcc -fPIC -c $< -o $@ \
+	gcc -fPIC -O3 -c $< -o $@ \
 		-I"C:\luajit\src"
 
 $(PROGRAM): $(OBJECTS)

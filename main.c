@@ -6,6 +6,7 @@
 #include "lua.h"
 #include "lauxlib.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 struct MatrixDiff getMatrixDiff(int **matrix1, int **matrix2)
 {
@@ -82,6 +83,8 @@ int getNextMove(lua_State *L)
 	lua_pushnumber(L, diff.originY+1);
 	lua_pushnumber(L, diff.destinationX+1);
 	lua_pushnumber(L, diff.destinationY+1);
+	freeTree(tree);
+	freeMatrix(matrix);
 	return 4;
 }
 
