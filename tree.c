@@ -122,7 +122,7 @@ void getWhiteMoves(struct Node *node, int level)
 					newBoard = copyMatrix(node->data);
 					destinationX = pointer->x;
 					destinationY = pointer->y;
-					movePiece(newBoard, destinationX, destinationY, i, j);
+					movePiece(newBoard, i, j, destinationX, destinationY);
 					newChild = newNode(newBoard);
 					addChild(node, newChild);
 					pointer = pointer->next;
