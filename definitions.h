@@ -34,7 +34,8 @@ struct Move
 struct Node
 {
 	int **data;
-	struct Node *next, *child;
+	struct Node *next;
+	struct Node *firstChild, *lastChild;
 };
 
 struct MatrixDiff

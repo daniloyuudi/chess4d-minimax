@@ -236,10 +236,10 @@ double getBoardUtility(int **matrix)
 
 double minimax(struct Node *node, bool isMaximize, double alpha, double beta)
 {
-	if (node->child != NULL) {
+	if (node->firstChild != NULL) {
 		if (isMaximize) {
 			double maxValue = -999999;
-			struct Node *child = node->child;
+			struct Node *child = node->firstChild;
 			double value;
 			while (child != NULL) {
 				value = minimax(child, false, alpha, beta);
@@ -255,7 +255,7 @@ double minimax(struct Node *node, bool isMaximize, double alpha, double beta)
 			return maxValue;
 		} else {
 			double minValue = 999999;
-			struct Node *child = node->child;
+			struct Node *child = node->firstChild;
 			double value;
 			while (child != NULL) {
 				value = minimax(child, true, alpha, beta);
@@ -279,7 +279,7 @@ int maximizeFirst(struct Node *tree, double alpha, double beta)
 {
 	double maxValue = -999999;
 	int index = -1;
-	struct Node *child = tree->child;
+	struct Node *child = tree->firstChild;
 	double value;
 	int i = 0;
 	while (child != NULL) {

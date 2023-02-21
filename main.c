@@ -57,7 +57,7 @@ int** getMatrix(lua_State *L)
 struct Node* getChild(struct Node *tree, int index)
 {
 	int i = 0;
-	struct Node *child = tree->child;
+	struct Node *child = tree->firstChild;
 	while (child != NULL) {
 		if (i == index) {
 			return child;

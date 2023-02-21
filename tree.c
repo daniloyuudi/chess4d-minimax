@@ -9,26 +9,25 @@ struct Node* newNode(int **data)
 	struct Node *node = (struct Node*) malloc(sizeof(struct Node));
 	node->data = data;
 	node->next = NULL;
-	node->child = NULL;
+	node->firstChild = NULL;
+	node->lastChild = NULL;
 	return node;
 }
 
 void addChild(struct Node *parent, struct Node *child)
 {
-	if (parent->child == NULL) {
-		parent->child = child;
+	if (parent->firstChild == NULL) {
+		parent->firstChild = child;
+		parent->lastChild = child;
 		return;
 	}
-	struct Node *pointer = parent->child;
-	while (pointer->next != NULL) {
-		pointer = pointer->next;
-	}
-	pointer->next = child;
+	parent->lastChild->next = child;
+	parent->lastChild = child;
 }
 
 void freeChildNode(struct Node *node)
 {
-	struct Node *pointer = node->child;
+	struct Node *pointer = node->firstChild;
 	struct Node *next = NULL;
 	while (pointer != NULL) {
 		next = pointer->next;
@@ -96,7 +95,7 @@ void getBlackMoves(struct Node *node, int level)
 		}
 	}
 	if (level-1 > 0) {
-		child = node->child;
+		child = node->firstChild;
 		while (child != NULL) {
 			getWhiteMoves(child, level-1);
 			child = child->next;
@@ -131,7 +130,7 @@ void getWhiteMoves(struct Node *node, int level)
 		}
 	}
 	if (level-1 > 0) {
-		child = node->child;
+		child = node->firstChild;
 		while (child != NULL) {
 			getBlackMoves(child, level-1);
 			child = child->next;
@@ -150,7 +149,7 @@ struct Node* generateTree(int **matrix, int depth)
 
 void freeTree(struct Node *root)
 {
-	struct Node *pointer = root->child;
+	struct Node *pointer = root->firstChild;
 	struct Node *next = NULL;
 	while (pointer != NULL) {
 		next = pointer->next;
@@ -163,10 +162,10 @@ void freeTree(struct Node *root)
 
 int getTreeMaxDepth(struct Node *node)
 {
-	if (node->child == NULL) {
+	if (node->firstChild == NULL) {
 		return 0;
 	} else {
-		struct Node *child = node->child;
+		struct Node *child = node->firstChild;
 		int max = 0;
 		int maxDepth;
 		while (child != NULL) {
